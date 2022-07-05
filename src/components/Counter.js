@@ -1,8 +1,12 @@
 import React from 'react';
 import '../css/Counter.css';
 
-function Counter({ clicksNumber }) {
-	return <div className='counter'>{clicksNumber}</div>;
+class Counter extends React.Component {
+	render() {
+		return (
+			<div className='counter'>{this.props.clicksNumber}</div>
+		);
+	}
 }
 
 export default Counter;

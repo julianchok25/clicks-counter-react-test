@@ -1,45 +1,57 @@
-import { useState } from 'react';
+import React from 'react';
 import './App.css';
 import Button from './components/Button';
 import Counter from './components/Counter';
 import freeCodeCampLogo from './images/freecodecamp-logo.png';
 
-function App() {
-	console.log('Componente padre');
-	const [clicksNumber, setClicksNumber] = useState(0);
+class App extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			clicksNumber: 0,
+		};
+		this.clickEvent = this.clickEvent.bind(this);
+		this.restartCounterEvent =
+			this.restartCounterEvent.bind(this);
+	}
 
-	const clickEvent = () => {
-		setClicksNumber(clicksNumber + 1);
-	};
+	// El objeto solo contiene las propiedades que se quieren actualizar, no todo el objeto
+	clickEvent() {
+		this.setState(({ clicksNumber }) => ({
+			clicksNumber: clicksNumber + 1,
+		}));
+	}
 
-	const restartCounterEvent = () => {
-		setClicksNumber(0);
-	};
+	restartCounterEvent() {
+		this.setState({ clicksNumber: 0 });
+	}
 
-	return (
-		<div className='App'>
-			<div className='logo-container'>
-				<img
-					className='logo'
-					src={freeCodeCampLogo}
-					alt='freecodecamp logo'
-				/>
+	render() {
+		return (
+			<div className='App'>
+				<div className='logo-container'>
+					<img
+						className='logo'
+						src={freeCodeCampLogo}
+						alt='freecodecamp logo'
+					/>
+				</div>
+				<main className='main-container'>
+					<Counter clicksNumber={this.state.clicksNumber} />
+					<Button
+						name='Click'
+						isClickButton={true}
+						clickHandler={this.clickEvent}
+					/>
+					<Button
+						name='Restart'
+						isClickButton={false}
+						clickHandler={this.restartCounterEvent}
+					/>
+				</main>
 			</div>
-			<main className='main-container'>
-				<Counter clicksNumber={clicksNumber} />
-				<Button
-					name='Click'
-					isClickButton={true}
-					clickHandler={clickEvent}
-				/>
-				<Button
-					name='Restart'
-					isClickButton={false}
-					clickHandler={restartCounterEvent}
-				/>
-			</main>
-		</div>
-	);
+		);
+	}
 }
 
 export default App;
